@@ -64,12 +64,6 @@ namespace quiz_game_winows
             questionNumber++;
             askQuestion(questionNumber);
 
-                   else
-            {
-
-                MessageBox.Show("Thank you for playing!");
-                this.Close(); // Closes the form or exit the application
-            }
 
         }
 
