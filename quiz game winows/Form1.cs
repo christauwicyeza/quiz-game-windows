@@ -10,6 +10,9 @@ using System.Windows.Forms;
 
 namespace quiz_game_winows
 {
+    /// <summary>
+    /// Form for the quiz game.
+    /// </summary>
     public partial class Form1 : Form
     {
         // Quiz game variables
@@ -19,6 +22,9 @@ namespace quiz_game_winows
         private int percentage;
         private int totalQuestions;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Form1"/> class.
+        /// </summary>
         public Form1()
         {
             InitializeComponent();
@@ -30,6 +36,11 @@ namespace quiz_game_winows
             askQuestion(questionNumber);
         }
 
+        /// <summary>
+        /// Event handler for the submit button click event.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="e">The event arguments.</param>
         private void submitButton_Click(object sender, EventArgs e)
         {
             // Proceed to the next question
@@ -57,6 +68,11 @@ namespace quiz_game_winows
             askQuestion(questionNumber);
         }
 
+        /// <summary>
+        /// Event handler for the answer button click event.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="e">The event arguments.</param>
         private void checkAnswerEvent(object sender, EventArgs e)
         {
             var selectedButton = (Button)sender;
@@ -83,6 +99,19 @@ namespace quiz_game_winows
             button5.Enabled = true;
         }
 
+        /// <summary>
+        /// Displays the specified message as a notification.
+        /// </summary>
+        /// <param name="message">The message to display.</param>
+        private void ShowNotification(string message)
+        {
+            MessageBox.Show(message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        /// <summary>
+        /// Displays the question based on the question number.
+        /// </summary>
+        /// <param name="qnum">The question number.</param>
         private void askQuestion(int qnum)
         {
             switch (qnum)
@@ -98,7 +127,6 @@ namespace quiz_game_winows
                     // Enable answer buttons
                     enableAnswerButtons();
                     break;
-
                 case 2:
                     pictureBox1.Image = Properties.Resources.FRANCE;
                     lblQuestion.Text = "What is the capital of France?";
@@ -173,6 +201,9 @@ namespace quiz_game_winows
             }
         }
 
+        /// <summary>
+        /// Enables all answer buttons.
+        /// </summary>
         private void enableAnswerButtons()
         {
             // Enable all answer buttons
@@ -183,11 +214,6 @@ namespace quiz_game_winows
 
             // Disable the "Submit" button
             button5.Enabled = false;
-        }
-
-        private void ShowNotification(string message)
-        {
-            MessageBox.Show(message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
