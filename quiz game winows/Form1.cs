@@ -12,169 +12,182 @@ namespace quiz_game_winows
 {
     public partial class Form1 : Form
     {
-
-        // quiz game variables
-
-        int correctAnswer;
-        int questionNumber = 1;
-        int score;
-        int percentage;
-        int totalQuestions;
-
+        // Quiz game variables
+        private int correctAnswer;
+        private int questionNumber = 1;
+        private int score;
+        private int percentage;
+        private int totalQuestions;
 
         public Form1()
         {
             InitializeComponent();
 
-            askQuestion(questionNumber);
+            // Assign the event handler to the "Submit" button
+            button5.Click += submitButton_Click;
 
             totalQuestions = 7;
+            askQuestion(questionNumber);
+        }
+
+        private void submitButton_Click(object sender, EventArgs e)
+        {
+            // Proceed to the next question
+            questionNumber++;
+            if (questionNumber > totalQuestions)
+            {
+                // Calculate percentage and display results when all questions are answered
+                percentage = (int)Math.Round((double)(score * 100) / totalQuestions);
+                MessageBox.Show(
+                    "Quiz Ended!" + Environment.NewLine +
+                    "You have answered " + score + " questions correctly" + Environment.NewLine +
+                    "Your total percentage is " + percentage + "%" + Environment.NewLine +
+                    $"Your total weighted score is " + score + " out of " + totalQuestions + Environment.NewLine +
+                    "Click OK to play again" + Environment.NewLine +
+                    " " + Environment.NewLine +
+                    " Close tab to go back"
+                );
+
+                // Reset score and question number for next round
+                score = 0;
+                questionNumber = 1;
+            }
+
+            // Ask the next question
+            askQuestion(questionNumber);
         }
 
         private void checkAnswerEvent(object sender, EventArgs e)
         {
-            var senderObject = (Button)sender;
+            var selectedButton = (Button)sender;
+            int selectedAnswer = Convert.ToInt32(selectedButton.Tag);
 
-            int buttonTag = Convert.ToInt32(senderObject.Tag);
-
-            if (buttonTag == correctAnswer) {
-
-                score++;
-            }
-            if(questionNumber == totalQuestions)
+            // Check if the selected answer is correct
+            if (selectedAnswer == correctAnswer)
             {
-                // percentage
-                percentage = (int)Math.Round((double)(score * 100) / totalQuestions);
-
-                MessageBox.Show(
-                    "Quiz Ended!" + Environment.NewLine +
-                    "You have answered " + score + "questions correctly" + Environment.NewLine +
-                    "Your total percentage is " + percentage + "%" + Environment.NewLine +
-                     $"Your total weighted score is " + score + " out of " + totalQuestions + Environment.NewLine +
-                    "Click OK to play again"
-                    );
-
-                score = 0;
-                questionNumber = 0;
-                askQuestion(questionNumber);
+                score++;
+                ShowNotification("Correct");
+            }
+            else
+            {
+                ShowNotification("Wrong");
             }
 
+            // Disable all answer buttons after selection
+            button1.Enabled = false;
+            button2.Enabled = false;
+            button3.Enabled = false;
+            button4.Enabled = false;
 
-
-            questionNumber++;
-            askQuestion(questionNumber);
-
-
+            // Enable the "Submit" button
+            button5.Enabled = true;
         }
 
         private void askQuestion(int qnum)
         {
-
             switch (qnum)
             {
                 case 1:
                     pictureBox1.Image = Properties.Resources.QUESRION;
-
-                    lblQuestion.Text = "what is the color of water ?";
-
-                    button1.Text = "white";
-                    button2.Text = "none";
-                    button3.Text = "red";
-                    button4.Text = "blue";
-                     
-                    correctAnswer = 2;
-
+                    lblQuestion.Text = "What is the color of water?";
+                    button1.Text = "White";
+                    button2.Text = "None";
+                    button3.Text = "Red";
+                    button4.Text = "Blue";
+                    correctAnswer = 4;
+                    // Enable answer buttons
+                    enableAnswerButtons();
                     break;
 
                 case 2:
                     pictureBox1.Image = Properties.Resources.FRANCE;
-
-                    lblQuestion.Text = "what is the city above ?";
-
-                    button1.Text = "paris";
-                    button2.Text = "Rwanda";
-                    button3.Text = "lagos";
-                    button4.Text = "none of the above";
-
+                    lblQuestion.Text = "What is the capital of France?";
+                    button1.Text = "Paris";
+                    button2.Text = "Rome";
+                    button3.Text = "Berlin";
+                    button4.Text = "Madrid";
                     correctAnswer = 1;
-
+                    // Enable answer buttons
+                    enableAnswerButtons();
                     break;
 
                 case 3:
                     pictureBox1.Image = Properties.Resources.HAPPY;
-
-                    lblQuestion.Text = "what emotions is displayed above?";
-
-                    button1.Text = "depressed";
-                    button2.Text = "sad";
-                    button3.Text = "angry";
-                    button4.Text = "happy";
-
-                    correctAnswer = 4;
-
+                    lblQuestion.Text = "What emotion is displayed above?";
+                    button1.Text = "Sad";
+                    button2.Text = "Angry";
+                    button3.Text = "Happy";
+                    button4.Text = "Surprised";
+                    correctAnswer = 3;
+                    // Enable answer buttons
+                    enableAnswerButtons();
                     break;
 
                 case 4:
                     pictureBox1.Image = Properties.Resources.PARAMOUNT;
-
-                    lblQuestion.Text = "what production firm is shown above ?";
-
+                    lblQuestion.Text = "What production firm is shown above?";
                     button1.Text = "Paramount Pictures";
-                    button2.Text = "Netflix";
-                    button3.Text = "Amazon";
-                    button4.Text = "Disney";
-
+                    button2.Text = "Universal Studios";
+                    button3.Text = "Warner Bros.";
+                    button4.Text = "20th Century Fox";
                     correctAnswer = 1;
-
+                    // Enable answer buttons
+                    enableAnswerButtons();
                     break;
 
                 case 5:
                     pictureBox1.Image = Properties.Resources.PEACOCK;
-
-                    lblQuestion.Text = "what animal is shown above ?";
-
-                    button1.Text = "zebra";
-                    button2.Text = "lion";
+                    lblQuestion.Text = "What bird is shown above?";
+                    button1.Text = "Zebra";
+                    button2.Text = "Lion";
                     button3.Text = "Peacock";
-                    button4.Text = "eagle";
-
+                    button4.Text = "Eagle";
                     correctAnswer = 3;
-
+                    // Enable answer buttons
+                    enableAnswerButtons();
                     break;
 
                 case 6:
                     pictureBox1.Image = Properties.Resources.DOLLARS;
-
-                    lblQuestion.Text = "what type of currency is shown here ? ";
-
-                    button1.Text = "Us dollars";
-                    button2.Text = "canadian dollars";
-                    button3.Text = "Rubles";
-                    button4.Text = "Rwandan francs";
-
+                    lblQuestion.Text = "What currency is shown here?";
+                    button1.Text = "US Dollars";
+                    button2.Text = "British Pounds";
+                    button3.Text = "Euros";
+                    button4.Text = "Japanese Yen";
                     correctAnswer = 1;
-
+                    // Enable answer buttons
+                    enableAnswerButtons();
                     break;
 
                 case 7:
                     pictureBox1.Image = Properties.Resources.PHOTOGRAPHY;
-
-                    lblQuestion.Text = "what type of proffesion is shown here ? ";
-
-                    button1.Text = "doctor";
-                    button2.Text = "nurse";
-                    button3.Text = "photography";
-                    button4.Text = "cleaner";
-
-                    correctAnswer = 1;
-
+                    lblQuestion.Text = "What profession is shown here?";
+                    button1.Text = "Doctor";
+                    button2.Text = "Nurse";
+                    button3.Text = "Photographer";
+                    button4.Text = "Chef";
+                    correctAnswer = 3;
+                    // Enable answer buttons
+                    enableAnswerButtons();
                     break;
-
-
-
-
-
             }
+        }
+
+        private void enableAnswerButtons()
+        {
+            // Enable all answer buttons
+            button1.Enabled = true;
+            button2.Enabled = true;
+            button3.Enabled = true;
+            button4.Enabled = true;
+
+            // Disable the "Submit" button
+            button5.Enabled = false;
+        }
+
+        private void ShowNotification(string message)
+        {
+            MessageBox.Show(message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
